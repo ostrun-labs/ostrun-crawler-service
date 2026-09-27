@@ -5,5 +5,8 @@ services:
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      Crawler__TimeoutSeconds: ${CRAWLER_TIMEOUT_SECONDS}
+      Crawler__MaxTargets: ${CRAWLER_MAX_TARGETS}
+      Crawler__UserAgent: ${CRAWLER_USER_AGENT}
     ports:
       - "8082:8082"
