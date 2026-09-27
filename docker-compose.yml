@@ -8,5 +8,6 @@ services:
       Crawler__TimeoutSeconds: ${CRAWLER_TIMEOUT_SECONDS}
       Crawler__MaxTargets: ${CRAWLER_MAX_TARGETS}
       Crawler__UserAgent: ${CRAWLER_USER_AGENT}
+      Crawler__AllowedHosts: ${CRAWLER_ALLOWED_HOSTS}
     ports:
       - "8082:8082"

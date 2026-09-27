@@ -4,7 +4,7 @@ Crawler service for [Ostrun](https://github.com/ostrun-labs/ostrun), provider `O
 
 ## Status
 
-Early development. `POST /crawler/fetch` works, but there is no host allowlist yet, so keep the service off public networks. The allowlist and the manifest come next.
+Early development. `POST /crawler/fetch` works and only reaches the hosts listed in `Crawler__AllowedHosts`, never private or loopback addresses. The manifest comes next.
 
 ## Independence
 

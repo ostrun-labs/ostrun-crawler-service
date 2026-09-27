@@ -25,9 +25,7 @@ builder.Services.AddHttpClient<UrlFetcher>((services, client) =>
         client.DefaultRequestHeaders.UserAgent.ParseAdd(
             services.GetRequiredService<IOptions<CrawlerOptions>>().Value.UserAgent);
     })
-    // Callers match on the status they get back, so a redirect must stay visible
-    // instead of being replaced by whatever the target of the redirect answers.
-    .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AllowAutoRedirect = false });
+    .ConfigurePrimaryHttpMessageHandler(OutboundGuard.CreateHandler);
 
 var app = builder.Build();
 

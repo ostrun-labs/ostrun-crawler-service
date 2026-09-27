@@ -14,4 +14,12 @@ public sealed class CrawlerOptions
 
     [Required]
     public string UserAgent { get; init; } = "OstrunCrawler/0.1 (+https://github.com/ostrun-labs/ostrun-crawler-service)";
+
+    // Comma-separated host names, matched exactly. Empty means no host can be fetched.
+    public string AllowedHosts { get; init; } = "";
+
+    public IReadOnlySet<string> AllowedHostSet() =>
+        AllowedHosts
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 }
