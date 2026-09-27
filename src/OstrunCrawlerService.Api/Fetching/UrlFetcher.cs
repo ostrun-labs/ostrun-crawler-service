@@ -5,6 +5,7 @@ namespace OstrunCrawlerService.Api.Fetching;
 public sealed class UrlFetcher(HttpClient httpClient, IOptions<CrawlerOptions> options)
 {
     private readonly TimeSpan _timeout = TimeSpan.FromSeconds(options.Value.TimeoutSeconds);
+    private readonly IReadOnlySet<string> _allowedHosts = options.Value.AllowedHostSet();
 
     public async Task<IReadOnlyList<FetchResult>> FetchAllAsync(IReadOnlyList<FetchTarget> targets, CancellationToken cancellationToken)
     {
@@ -13,6 +14,11 @@ public sealed class UrlFetcher(HttpClient httpClient, IOptions<CrawlerOptions> o
 
     private async Task<FetchResult> FetchAsync(FetchTarget target, CancellationToken cancellationToken)
     {
+        if (!_allowedHosts.Contains(target.Url.IdnHost))
+        {
+            return Failed(target, FetchError.HostNotAllowed);
+        }
+
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(_timeout);
 
@@ -27,11 +33,18 @@ public sealed class UrlFetcher(HttpClient httpClient, IOptions<CrawlerOptions> o
         }
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
         {
-            return new FetchResult(target.Id, target.Url.AbsoluteUri, null, false, FetchError.Timeout);
+            return Failed(target, FetchError.Timeout);
+        }
+        catch (HttpRequestException exception) when (exception.InnerException is BlockedAddressException)
+        {
+            return Failed(target, FetchError.HostNotAllowed);
         }
         catch (HttpRequestException)
         {
-            return new FetchResult(target.Id, target.Url.AbsoluteUri, null, false, FetchError.NetworkError);
+            return Failed(target, FetchError.NetworkError);
         }
     }
+
+    private static FetchResult Failed(FetchTarget target, FetchError error) =>
+        new(target.Id, target.Url.AbsoluteUri, null, false, error);
 }

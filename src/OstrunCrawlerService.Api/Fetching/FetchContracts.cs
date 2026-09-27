@@ -14,6 +14,7 @@ public enum FetchError
 {
     Timeout,
     NetworkError,
+    HostNotAllowed,
 }
 
 public sealed record FetchTarget(string Id, Uri Url, int ExpectedStatus);

@@ -7,7 +7,13 @@ namespace OstrunCrawlerService.UnitTests.Fetching;
 public class UrlFetcherTests
 {
     private static UrlFetcher CreateFetcher(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> respond, double timeoutSeconds = 5) =>
-        new(new HttpClient(new FakeHandler(respond)), Options.Create(new CrawlerOptions { TimeoutSeconds = timeoutSeconds }));
+        new(
+            new HttpClient(new FakeHandler(respond)),
+            Options.Create(new CrawlerOptions
+            {
+                TimeoutSeconds = timeoutSeconds,
+                AllowedHosts = "registry.npmjs.org,free.test,down.test,up.test,slow.test,a.test",
+            }));
 
     private static FetchTarget Target(string id, string url, int expectedStatus = 404) => new(id, new Uri(url), expectedStatus);
 
