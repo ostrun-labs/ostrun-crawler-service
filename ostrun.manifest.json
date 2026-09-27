@@ -1,0 +1,57 @@
+{
+  "provider": "Ostrun",
+  "service": "crawler",
+  "version": "0.1.0",
+  "displayName": "Ostrun Crawler",
+  "description": "Requests a list of URLs on behalf of other services and reports, per URL, the status received and whether it matched the expected one.",
+  "repository": "https://github.com/ostrun-labs/ostrun-crawler-service",
+  "registry": null,
+  "needsDb": false,
+  "basePath": "/crawler",
+  "events": {
+    "published": [],
+    "consumed": []
+  },
+  "dependencies": [],
+  "env": [
+    {
+      "name": "ASPNETCORE_URLS",
+      "required": true,
+      "description": "Kestrel listen URL(s), e.g. http://+:8082"
+    },
+    {
+      "name": "Crawler__AllowedHosts",
+      "required": true,
+      "description": "Comma-separated host names the crawler may request, matched exactly. Empty blocks every host"
+    },
+    {
+      "name": "Crawler__TimeoutSeconds",
+      "required": false,
+      "description": "Timeout per URL in seconds",
+      "default": "5"
+    },
+    {
+      "name": "Crawler__MaxTargets",
+      "required": false,
+      "description": "Maximum number of URLs per request",
+      "default": "20"
+    },
+    {
+      "name": "Crawler__UserAgent",
+      "required": false,
+      "description": "User-Agent header sent with every request",
+      "default": "OstrunCrawler/0.1 (+https://github.com/ostrun-labs/ostrun-crawler-service)"
+    }
+  ],
+  "ports": [
+    {
+      "containerPort": 8082,
+      "protocol": "http",
+      "description": "HTTP API"
+    }
+  ],
+  "healthCheck": {
+    "path": "/health",
+    "method": "GET"
+  }
+}
