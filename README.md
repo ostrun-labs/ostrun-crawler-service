@@ -4,7 +4,7 @@ Crawler service for [Ostrun](https://github.com/ostrun-labs/ostrun), provider `O
 
 ## Status
 
-Design phase. There is no code or manifest yet.
+Early development. The service builds, runs in Docker on port 8082 and answers `GET /health`. The fetch API and the manifest come next.
 
 ## Independence
 

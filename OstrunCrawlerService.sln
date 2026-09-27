@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4FEC9E6D-F6D6-4378-B26B-B70FD23BFBAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OstrunCrawlerService.Api", "src\OstrunCrawlerService.Api\OstrunCrawlerService.Api.csproj", "{2DF1D7A2-0274-4342-81A4-834CDAAE45E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3750C75A-2427-466F-9310-008CC9ADEB02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OstrunCrawlerService.UnitTests", "tests\OstrunCrawlerService.UnitTests\OstrunCrawlerService.UnitTests.csproj", "{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DF1D7A2-0274-4342-81A4-834CDAAE45E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF1D7A2-0274-4342-81A4-834CDAAE45E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF1D7A2-0274-4342-81A4-834CDAAE45E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF1D7A2-0274-4342-81A4-834CDAAE45E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DF1D7A2-0274-4342-81A4-834CDAAE45E9} = {4FEC9E6D-F6D6-4378-B26B-B70FD23BFBAB}
+		{9FADF6CD-55B2-4BCF-BF08-2FBFA9FE1FDB} = {3750C75A-2427-466F-9310-008CC9ADEB02}
+	EndGlobalSection
+EndGlobal
