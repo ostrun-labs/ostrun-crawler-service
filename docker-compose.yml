@@ -1,0 +1,9 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+    ports:
+      - "8082:8082"
