@@ -90,6 +90,57 @@ public class UrlFetcherTests
             () => fetcher.FetchAllAsync([Target("a", "https://a.test/")], callerGone.Token));
     }
 
+    [Theory]
+    [InlineData("https://not-listed.test/")]
+    [InlineData("https://sub.a.test/")]
+    public async Task Refuses_hosts_outside_the_allowlist_without_sending_a_request(string url)
+    {
+        var sent = false;
+        var fetcher = CreateFetcher((_, _) =>
+        {
+            sent = true;
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
+        });
+
+        var results = await fetcher.FetchAllAsync([Target("x", url)], CancellationToken.None);
+
+        Assert.Equal([new FetchResult("x", url, null, false, FetchError.HostNotAllowed)], results);
+        Assert.False(sent);
+    }
+
+    [Fact]
+    public async Task Matches_allowlisted_hosts_case_insensitively()
+    {
+        var fetcher = CreateFetcher((_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound)));
+
+        var results = await fetcher.FetchAllAsync([Target("npm", "https://REGISTRY.npmjs.org/x")], CancellationToken.None);
+
+        Assert.Equal(404, Assert.Single(results).Status);
+    }
+
+    [Fact]
+    public async Task Empty_allowlist_refuses_every_host()
+    {
+        var fetcher = new UrlFetcher(
+            new HttpClient(new FakeHandler((_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)))),
+            Options.Create(new CrawlerOptions()));
+
+        var results = await fetcher.FetchAllAsync([Target("npm", "https://registry.npmjs.org/x")], CancellationToken.None);
+
+        Assert.Equal(FetchError.HostNotAllowed, Assert.Single(results).Error);
+    }
+
+    [Fact]
+    public async Task Reports_host_not_allowed_when_the_address_is_blocked_at_connect_time()
+    {
+        var fetcher = CreateFetcher((request, _) =>
+            throw new HttpRequestException("blocked", new BlockedAddressException(request.RequestUri!.Host)));
+
+        var results = await fetcher.FetchAllAsync([Target("a", "https://a.test/")], CancellationToken.None);
+
+        Assert.Equal([new FetchResult("a", "https://a.test/", null, false, FetchError.HostNotAllowed)], results);
+    }
+
     private sealed class FakeHandler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> respond) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
