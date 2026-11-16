@@ -24,3 +24,6 @@ jobs:
 
       - name: Test
         run: dotnet test OstrunCrawlerService.sln --no-build --configuration Release
+
+  ostrun-validate:
+    uses: ostrun-labs/ostrun/.github/workflows/validate-service.yml@main
