@@ -57,6 +57,10 @@ curl localhost:8082/crawler/fetch -H 'content-type: application/json' \
   -d '{"targets":[{"id":"npm","url":"https://registry.npmjs.org/react","match":{"status":404}}]}'
 ```
 
+## Exposure
+
+The manifest declares `"exposure": "internal"`. In a generated app the Ostrun gateway has no route to the crawler, so `POST /crawler/fetch` is not reachable from outside (404). Other services call it on the Compose network at `http://crawler-api:8082/crawler/fetch`. The `curl localhost:8082` example above only works when you run this repo's own `docker-compose.yml`, which publishes the port.
+
 ## Independence
 
 Like every Ostrun service, the crawler has its own `Dockerfile` and its own repo. It has no database and publishes no events for now. Other services reach it through its HTTP API only.
